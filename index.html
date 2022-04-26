@@ -3,13 +3,349 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/styles.css">
         <title>My first three.js app</title>
-        <style>
-            body { margin: 0; }
-        </style>
+
+        <script src="./js/objToHtml.js"></script>
+        <script src="./js/parallex.js"></script>
+        <script src="./js/obfuscate.js"></script>
+        <script src="./js/model.js" type="model"></script>
+        <script src="./js/slide.js"></script>
+        <script>
+
+            let intObserver = new IntersectionObserver((e) => {
+                for (let i = 0; i < e.length; i++) {
+                    if (e[i].isIntersecting)
+                        e[i].target.in();
+                        //e[i].target.style.color = 'green';
+                    else
+                        e[i].target.out();
+                        //e[i].target.style.color = 'red';
+                }
+            }, {
+                rootMargin: '0px',
+                threshold: 0.5
+            });
+
+            let mutObserver = new MutationObserver((e) => {
+                for (let i = 0; i < e.length; i++) {
+                    if (e[i].addedNodes) {
+                        for (let j = 0; j < e[i].addedNodes.length; j++) {
+                            if ((e[i].addedNodes[j].tagName ?? '').startsWith('ANI-')) {
+                                intObserver.observe(e[i].addedNodes[j]);
+                            }
+                        }
+                    }
+                }
+            });
+
+            mutObserver.observe(
+                document.documentElement || document.body,
+                {
+                    subtree: true,
+                    childList: true,
+                    attributes: false
+                }
+            );
+        </script>
     </head>
     <body>
-        <script src="js/three.js"></script>
-        <script src="js/scripts.js"></script>
+
+        <div class="background-grid"></div>
+        <div class="background-noise"></div>
+        <!-- <div class="background-vignette"></div> -->
+
+        <script src="./js/model.js" type="module"></script>
+        <!-- <script src="./js/scriptsthree.js" type="module"></script> -->
+
+
+        <!--Intro-->
+
+        <section class="page-section" id="intro">
+
+            <div class="rings-abs-wrapper" data-parallex-speed="0.75">
+                <div class="rings top-right" >
+                    <svg viewbox="0 0 100 100" height="100%" width="100%">
+                        <circle class="s3" cx="50" cy="50" r="60" />
+                        <circle class="s4" cx="50" cy="50" r="45" />
+                        <circle class="s5" cx="50" cy="50" r="25" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="gradient-borders">
+                <div></div>
+                <div></div>
+            </div>
+
+            <div>
+                <section class="intro-heading">
+                    <ani-obfuscator class="underline" id="introTitle" data-parallex-speed="0.95" data-parallex-space>Encryption</ani-obfuscator>
+                    <div class="subtitles">
+                        <ani-slide id="introSubtitleOne" data-parallex-speed="0.925" data-parallex-space>an interactive presentation</ani-slide>
+                        <ani-slide id="introSubtitleTwo" data-parallex-speed="0.9" data-parallex-space>jack stoller</ani-slide>
+                    </div>
+                </section>
+
+                <article>
+                    <p>
+                        The digital era has ushered in a new technologies, giving
+                        single individuals more power than ever.
+                    </p>
+
+                    <p>
+                        Criminals have taken notice and are operating massive
+                        scale with the highest level of anonymity ever seen.
+                    </p>
+
+                    <p>
+                        This is all powered by encryption, a revolutionary
+                        algorithm, first used thousands of years ago, but super
+                        powered by modern processors.
+                    </p>
+                </article>
+
+            </div>
+
+            <div class="hero-model">
+                <div class="rings">
+                    <svg viewbox="0 0 100 100" height="100%" width="100%">
+                        <circle class="s1" cx="50" cy="50" r="60" />
+                        <circle class="s2" cx="50" cy="50" r="40" />
+                        <!-- <circle class="s1" cx="50" cy="50" r="30" /> -->
+                    </svg>
+                    <model-view data-model="lock"></model-view>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="badUses">
+            <article>
+
+                <section>
+                    <div class="rings">
+                        <svg viewbox="0 0 100 100" height="100%" width="100%">
+                            <circle class="s6" cx="50" cy="50" r="60" />
+                            <circle class="s7" cx="50" cy="50" r="48" />
+                            <circle class="s8" cx="50" cy="50" r="42" />
+                            <!-- <circle class="s1" cx="50" cy="50" r="30" /> -->
+                        </svg>
+                        <model-view data-model="iphone"></model-view>
+                    </div>
+                </section>
+
+                <section>
+
+                    <h1>
+                        <ani-obfuscator class="underline">Locked iPhone</ani-obfuscator>
+                    </h1>
+                    <time datetime="2015-02">
+                        February 2015
+                    </time>
+                    <div class="content-wrapper">
+                        <div class="gradient-borders">
+                            <div></div>
+                            <div></div>
+                        </div>
+                        <p>
+                            The FBI recovered an iPhone from a terrorist after an attack in San Bernardino, California. This phone could have contained contact information for the terrorist’s accomplices, plans for future attacks, and invaluable insight into how modern terrorists operate in the digital world. But it was encrypted, locked to everyone except those with the password. The FBI did not have the password. They needed to break the encryption. People have been breaking encryption since its creation of it with the Caesar Cipher. The only issue, it has gotten better. Much better. It could take a supercomputer hundreds of years to break the encryption on this phone. The cost of breaking the encryption would not be worth it. The FBI needed to bypass the encryption using a backdoor, so the FBI went to Apple. A backdoor is a way to get around the encryption. If encryption is a massive castle fortified from all sides, a back door is a hidden access through the sewers. Apple refused. Their backdoor was a closely guarded secret. Apple had to protect its reputation as an ultra-secure platform. Bypassing all their security, any time officials came knocking on their door wasn’t going to work. The FBI fought in court, citing the All Writs Act, but Apple rose the victor. The current regulation protected Apple. And the terrorist. The FBI had vital information at their figure tips, but the law held it back. A backdoor to bypass the encryption, required by regulation, could have made all the difference, but would have that been for the better?
+                        </p>
+                    </div>
+                </section>
+            </article>
+
+            <article>
+
+                <section>
+
+                    <div class="rings">
+                        <svg viewbox="0 0 100 100" height="100%" width="100%">
+                            <circle class="s6" cx="50" cy="50" r="60" />
+                            <circle class="s7" cx="50" cy="50" r="48" />
+                            <circle class="s8" cx="50" cy="50" r="42" />
+                            <!-- <circle class="s1" cx="50" cy="50" r="30" /> -->
+                        </svg>
+                        <model-view data-model="messaging"></model-view>
+                    </div>
+
+                </section>
+
+                <section>
+                    <h1>
+                        <ani-obfuscator class="underline">Instant Criminal Messaging</ani-obfuscator>
+                    </h1>
+                    <time datetime="2018">
+                        2018
+                    </time>
+                    <div class="content-wrapper">
+                        <div class="gradient-borders">
+                            <div></div>
+                            <div></div>
+                        </div>
+                        <p>
+                            Criminals using encryption to protect themselves from authorities is not anything new. In 2018, the FBI dismantled a Canadian-based messaging service (Phillips 2021). This secure, encrypted, messaging service aided criminals in their activities. It let them walk right beside the FBI in the digital world, without the FBI having any chance of figuring out what they were up to. This instant remote communication from anywhere in the world gave criminals superpowers. Criminals can use the infrastructure that the world has set up to wreak havoc on it. The potential anonymity given by encryption is unparalleled to any time in history.
+                        </p>
+                    </div>
+                </section>
+            </article>
+
+            <article>
+
+                <section>
+
+                    <div class="rings">
+                        <svg viewbox="0 0 100 100" height="100%" width="100%">
+                            <circle class="s6" cx="50" cy="50" r="60" />
+                            <circle class="s7" cx="50" cy="50" r="48" />
+                            <circle class="s8" cx="50" cy="50" r="42" />
+                            <!-- <circle class="s1" cx="50" cy="50" r="30" /> -->
+                        </svg>
+                        <model-view data-model="ransomeware"></model-view>
+                    </div>
+
+                </section>
+
+                <section>
+
+                    <h1>
+                        <ani-obfuscator class="underline">Bank Robbery, Digitally</ani-obfuscator>
+                    </h1>
+                    <time datetime="2020">
+                        2020
+                    </time>
+                    <div class="content-wrapper">
+                        <div class="gradient-borders">
+                            <div></div>
+                            <div></div>
+                        </div>
+                        <p>
+                            Ransomware is more common than ever now. In 2020, the Finastra Group Holdings became a victim of a ransomware attack. 90 of 100 of the world’s largest banks were affected (Hastett, 2021, pg. 1). Finastra had to go dark. They were able to recover, but potential damage was clear. Attempted cyber-attacks against banks have increased from under 5,000 a week in February 2020 to more than 200,000 a week in April 2021 (Hastett, 2021, pg. 1). It was found that in a 2021 report, in the past 12 months, 44% of financial institutions paid the ransom to get their data back. Even with backups, only 47% were able to recover, despite 67% saying they could (Hastett, 2021, pg. 2).
+                        </p>
+                    </div>
+                </section>
+            </article>
+
+            <article>
+
+                <section>
+
+                    <div class="rings">
+                        <svg viewbox="0 0 100 100" height="100%" width="100%">
+                            <circle class="s6" cx="50" cy="50" r="60" />
+                            <circle class="s7" cx="50" cy="50" r="48" />
+                            <circle class="s8" cx="50" cy="50" r="42" />
+                            <!-- <circle class="s1" cx="50" cy="50" r="30" /> -->
+                        </svg>
+                        <model-view data-model="healthcare"></model-view>
+                    </div>
+
+                </section>
+
+                <section>
+
+                    <h1>
+                        <ani-obfuscator class="underline">Healthcare Attacks</ani-obfuscator>
+                    </h1>
+                    <time datetime="2016">
+                        2016
+                    </time>
+                    <div class="content-wrapper">
+                        <div class="gradient-borders">
+                            <div></div>
+                            <div></div>
+                        </div>
+                        <p>
+                            The finical industry isn’t the only industry under intense pressure from ransomware attacks. The healthcare industry has seen similar trends. In a report published by the Department of Health and Human Services in 2021, it was found that in the first 5 months, 82 different ransomware attacks occurred, 72% of which exposed patient data (Kiser 2021, pg. 65). In 2016 the Hollywood Presbyterian Medical Center was attacked. Ambulances had to be diverted to other hospitals, records couldn’t be accessed, and certain computerized scans could not be completed (Kiser 2021, pg. 71). They were left with the decision of paying the ransom or losing access to all their patient data.
+                        </p>
+                    </div>
+                </section>
+            </article>
+
+
+            <article>
+                <section>
+                    <h1>How?</h1>
+                    <p>
+                        Encryption. Simply put, encryption let’s hackers attack a system and encrypt everything. If organtiztion wants the data back, they have to buy or or find the hacker’s mistake. It's like locking an entire office building and then selling the keys to the front door for millions.
+                    </p>
+                </section>
+            </article>
+        </section>
+
+
+        <!--How It Works-->
+
+        <section id="howItWorks">
+
+            <section class="how-it-works-description">
+                <ani-obfuscator id="howItWorksTitle">How It Works</ani-obfuscator>
+
+                <div>Encryption turns</div>
+                <code>Hello World</code>
+                <div>into</div>
+                <code>JGF*&GWHJGW^GSD</code>
+                <div>The only way to get it back is with the key</div>
+                <code>Key</code>
+            </section>
+
+            <section class="try-it">
+                <ani-obfuscator>Try it out</ani-obfuscator>
+
+                <form action="#" onsubmit="event.preventDefault();">
+
+                    <div>Put something in here</div>
+                    <textarea></textarea>
+
+                    <div>Then give it a key. Remeber</div>
+
+                    <input type="text">
+
+                    <button>Encrypt</button>
+
+                </form>
+
+                <div>
+                    A now it's
+                </div>
+
+                <code>
+                    %^&Y*HUSDFYT%^*W#BHJGYT^&*(UIGY%^)TYHJGVT^&*U%^&
+                </code>
+
+
+
+                <div>Now let's get it back</div>
+
+                <form action="#" onsubmit="event.preventDefault();">
+
+                    <div>Put the encrypted text here, or just click here</div>
+                    <textarea></textarea>
+
+                    <div>Now enter the key exactly as before</div>
+
+                    <input type="text">
+
+                    <button>Decrypt</button>
+
+                </form>
+
+                <div>
+                    And now it's back.
+                </div>
+
+                <code>
+                    Orignal text here
+                </code>
+
+
+            </section>
+
+        </section>
+
+        <section id="backdoors">
+
+        </section>
+
     </body>
 </html>
