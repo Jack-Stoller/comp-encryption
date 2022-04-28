@@ -12,6 +12,36 @@ import { ConditionalEdgesShader } from './conditional-lines/ConditionalEdgesShad
 import { ConditionalLineSegmentsGeometry } from './conditional-lines/Lines2/ConditionalLineSegmentsGeometry.js';
 import { ConditionalLineMaterial } from './conditional-lines/Lines2/ConditionalLineMaterial.js';
 
+var windowSize = new THREE.Vector2(window.innerWidth, window.innerHeight);
+
+
+window.addEventListener('resize', () => {
+    windowSize.x = window.innerWidth;
+    windowSize.y = window.innerHeight;
+});
+
+var pointerPos = new THREE.Vector2(0, 0);
+
+window.addEventListener('pointermove', (e) => {
+    pointerPos.x = e.pageX;
+    pointerPos.y = e.pageY;
+});
+
+
+var prevScrollX = window.scrollX;
+var prevScrollY = window.scrollY;
+
+window.addEventListener('scroll', (e) => {
+    let sX = window.scrollX;
+    let sY = window.scrollY;
+
+    pointerPos.x += sX - prevScrollX;
+    pointerPos.y += sY - prevScrollY;
+
+    prevScrollX = sX;
+    prevScrollY = sY;
+}, {passive: true});
+
 class ModelView extends HTMLElement {
     constructor() {
 
@@ -25,8 +55,16 @@ class ModelView extends HTMLElement {
         this.options = {
             lineColor: '#F5335E',
             fillOpacity: 0.95,
-            fillColor: '#15151E'
+            fillColor: '#15151E',
+            maxRotX: Math.PI / 3,
+            maxRotY: Math.PI / 3
         }
+
+
+        //If there where more modules, a signle listener should be used, but this is easier
+        window.addEventListener('resize', () => {
+            this.recalcCenter();
+        });
     }
 
     connectedCallback() {
@@ -35,9 +73,19 @@ class ModelView extends HTMLElement {
             //Setup the scene
             let boundingBox = this.parentNode.getBoundingClientRect();
 
+            this.center = new THREE.Vector2(boundingBox.top + document.documentElement.scrollTop + boundingBox.width / 2, boundingBox.left + document.documentElement.scrollLeft + boundingBox.height / 2)
+
+            this.recalcCenter(false);
+
+            this.center = new THREE.Vector2(0, 0);
+
+            let scale = Math.min(boundingBox.width, boundingBox.height) * -0.005 + 6;
+
+
             this.scene = new THREE.Scene();
             this.camera = new THREE.PerspectiveCamera(40, boundingBox.width / boundingBox.height, 0.1, 2000);
-            this.camera.position.set(2, 0.5, 5).multiplyScalar(1.5);
+            this.camera.position.set(0, 0.5, 5).multiplyScalar(scale);
+            this.camera.lookAt(0, 0, 0);
             this.scene.add(this.camera);
 
             this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -60,8 +108,10 @@ class ModelView extends HTMLElement {
                 for (let i = 0; i < e.length; i++) this.onResize(e[i]);
             }).observe(this.parentNode);
 
-            this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-            this.controls.maxDistance = 200;
+            // this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+            // this.controls.maxDistance = 200;
+            // this.controls.enableZoom = false;
+            // this.controls.enablePan = false;
 
             this.animate();
         });
@@ -118,6 +168,23 @@ class ModelView extends HTMLElement {
             parent.add(line);
             parent.add(thickLines);
         }
+
+        this.edgesModel.traverse( c => {
+
+            if (c.material && c.material.resolution) {
+                this.renderer.getSize(c.material.resolution);
+                c.material.resolution.multiplyScalar( window.devicePixelRatio );
+                //c.material.linewidth = params.thickness;
+            }
+
+            if ( c.material ) {
+
+                c.visible = true; //c instanceof LineSegments2 ? params.useThickLines : ! params.useThickLines;
+                c.material.color.set( this.options.linesColor );
+
+            }
+
+        } );
     }
 
     loadConditionalModel() {
@@ -167,6 +234,26 @@ class ModelView extends HTMLElement {
             parent.add(line);
             parent.add(thickLines);
         }
+
+        this.conditionalModel.visible = true;//params.displayConditionalEdges;
+        this.conditionalModel.traverse( c => {
+
+            if ( c.material && c.material.resolution ) {
+
+                this.renderer.getSize(c.material.resolution);
+                c.material.resolution.multiplyScalar( window.devicePixelRatio );
+                //c.material.linewidth = params.thickness;
+
+            }
+
+            if ( c.material ) {
+
+                c.visible = true //c instanceof LineSegments2 ? params.useThickLines : ! params.useThickLines;
+                c.material.uniforms.diffuse.value.set( this.options.linesColor );
+
+            }
+
+        } );
     }
 
     loadBackgroundModel() {
@@ -189,73 +276,112 @@ class ModelView extends HTMLElement {
 
         } );
         this.scene.add(this.backgroundModel);
+
+        this.backgroundModel.traverse(c => {
+            if (c.isMesh) {
+                c.material.transparent = true;
+                c.material.opacity = this.options.fillOpacity;
+                c.material.color.set(this.options.fillColor);
+            }
+        });
     }
 
     animate() {
         requestAnimationFrame((e) => { this.animate(e) });
 
+        let x = this.clampRotX(((pointerPos.x - this.center.x) / windowSize.x) * this.options.maxRotX);
+        let y = this.clampRotY(((pointerPos.y - this.center.y) / windowSize.y) * this.options.maxRotY);
 
-        if (this.conditionalModel) {
-
-            this.conditionalModel.visible = true;//params.displayConditionalEdges;
-            this.conditionalModel.traverse( c => {
-
-                if ( c.material && c.material.resolution ) {
-
-                    this.renderer.getSize(c.material.resolution);
-                    c.material.resolution.multiplyScalar( window.devicePixelRatio );
-                    //c.material.linewidth = params.thickness;
-
-                }
-
-                if ( c.material ) {
-
-                    c.visible = true //c instanceof LineSegments2 ? params.useThickLines : ! params.useThickLines;
-                    c.material.uniforms.diffuse.value.set( this.options.linesColor );
-
-                }
-
-            } );
-
-        }
-
-        if (this.edgesModel) {
-
-            this.edgesModel.traverse( c => {
-
-                if (c.material && c.material.resolution) {
-                    this.renderer.getSize(c.material.resolution);
-                    c.material.resolution.multiplyScalar( window.devicePixelRatio );
-                    //c.material.linewidth = params.thickness;
-                }
-
-                if ( c.material ) {
-
-                    c.visible = true; //c instanceof LineSegments2 ? params.useThickLines : ! params.useThickLines;
-                    c.material.color.set( this.options.linesColor );
-
-                }
-
-            } );
-
-        }
-
-        if (this.backgroundModel) {
-            this.backgroundModel.traverse(c => {
-                if (c.isMesh) {
-                    c.material.transparent = true;
-                    c.material.opacity = this.options.fillOpacity;
-                    c.material.color.set(this.options.fillColor);
-                }
-            });
-        }
-
+        this.rotateModel(x, y);
 
         this.renderer.render(this.scene, this.camera);
     }
 
+    clampRotX(x) {
+        return Math.min(Math.max(x, -this.options.maxRotX), this.options.maxRotX);
+    }
+
+    clampRotY(x) {
+        return Math.min(Math.max(x, -this.options.maxRotY), this.options.maxRotY);
+    }
+
+
+    rotateModel(x, y) {
+        if (this.model) {
+            this.model.rotation.y = x;
+            this.model.rotation.x = y;
+        }
+
+        if (this.edgesModel) {
+            this.edgesModel.rotation.y = x;
+            this.edgesModel.rotation.x = y;
+        }
+
+        if (this.conditionalModel) {
+            this.conditionalModel.rotation.y = x;
+            this.conditionalModel.rotation.x = y;
+        }
+
+        if (this.backgroundModel) {
+            this.backgroundModel.rotation.y = x;
+            this.backgroundModel.rotation.x = y;
+        }
+    }
+
+    recalcCenter() {
+        window.requestAnimationFrame(() => {
+            let box = this.getBoundingClientRect()
+
+            var body = document.body;
+            var docEl = document.documentElement;
+
+            var scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+            var scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
+
+            var clientTop = docEl.clientTop || body.clientTop || 0;
+            var clientLeft = docEl.clientLeft || body.clientLeft || 0;
+
+            var top  = box.top +  scrollTop - clientTop;
+            var left = box.left + scrollLeft - clientLeft;
+
+            this.center = new THREE.Vector2(
+                left + box.width / 2,
+                top + box.height / 2
+            );
+            let scale = Math.min(box.width, box.height) * -0.005 + 6;
+            this.camera.position.set(0, 0.5, 5).multiplyScalar(scale);
+
+            // body.appendChild(objToHtml.toNode({
+            //     style: {
+            //         position: 'absolute',
+            //         height: '10px',
+            //         width: '10px',
+            //         backgroundColor: 'red',
+            //         borderRadius: '50%',
+            //         top: `${this.center.y}px`,
+            //         left: `${this.center.x}px`,
+            //     }
+            // }));
+
+            // body.appendChild(objToHtml.toNode({
+            //     style: {
+            //         position: 'absolute',
+            //         height: '10px',
+            //         width: '10px',
+            //         color: 'white',
+            //         top: `${this.center.y + 16}px`,
+            //         left: `${this.center.x + 16}px`,
+            //     },
+            //     text: this.getAttribute('data-model')
+            // }));
+        });
+    }
+
     onResize(e) {
+
         let boxSize = (Array.isArray(e.borderBoxSize)) ? e.borderBoxSize[0] : e.borderBoxSize;
+
+        this.recalcCenter();
 
 
         //Since we are resizing the child there is a possiblity
@@ -272,9 +398,32 @@ class ModelView extends HTMLElement {
 
         this.renderer.setSize(w, h);
         this.renderer.setPixelRatio(window.devicePixelRatio);
+
+        if (this.conditionalModel) {
+            this.conditionalModel.traverse( c => {
+
+               if ( c.material && c.material.resolution ) {
+
+                   this.renderer.getSize(c.material.resolution);
+
+               }
+
+            } );
+
+       }
+
+       if (this.edgesModel) {
+
+           this.edgesModel.traverse( c => {
+
+               if (c.material && c.material.resolution) {
+                   this.renderer.getSize(c.material.resolution);
+               }
+           } );
+
+       }
     }
 }
-
 
 
 
@@ -326,8 +475,6 @@ var models = {};
 
         const loader = new THREE.FontLoader();
         loader.load('assets/fonts/helvtiker_bold.typeface.json', (font) => {
-
-            console.log('loaded typeface')
 
             const geometry = new THREE.TextGeometry( '$', {
                 font: font,

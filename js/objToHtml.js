@@ -1,6 +1,6 @@
 const objToHtml = {
     toNode: (obj) => {
-        let el = document.createElement(obj.tag);
+        let el = document.createElement(obj.tag ?? 'div');
         for (let k in obj) {
             let v = obj[k];
             if (k === 'tag') continue;

@@ -6,31 +6,35 @@
 :root {
     --accent: #F5335E;
     --secondary: #6D6DA0;
+    --secondary-transparent: #6d6da028;
+    --accent-transparent: #F5335E28;
     --background: #15151E;
 }
 
 html, body {
 
     overflow-x: hidden;
+    overflow-y: overlay;
 
     margin: 0px;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Ubuntu", "Roboto", "Noto Sans", "Droid Sans", sans-serif;
 }
 
 ::-webkit-scrollbar {
-    width: 0px;
+    width: 5px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #f1f1f1;
+    background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #888;
+    border-radius: 5px;
+    background: #f5335d40;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #555;
+    background: #f5335d60;
 }
 
 ::selection {
@@ -43,7 +47,7 @@ html, body {
 
 body {
     position: relative;
-
+    overflow: visible;
     background-color: var(--background);
 }
 
@@ -78,14 +82,17 @@ body > .background-noise {
 
 body > .background-vignette {
     position: fixed;
+    z-index: 100;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
 
     background:
-        radial-gradient(transparent, black);
+        radial-gradient(transparent 30%, rgba(0, 0, 0, 0.4) 100%);
     background-size: cover;
+
+    pointer-events: none;
 }
 
 .obfuscate {
@@ -99,6 +106,10 @@ section.page-section {
     box-sizing: border-box;
 
     padding: 108px;
+}
+
+section.page-section.fit {
+    height: auto;
 }
 
 /* section.page-section:before {
@@ -187,6 +198,7 @@ section.page-section {
 }
 
 .underline {
+    width: fit-content;
     position: relative;
 }
 
@@ -201,7 +213,7 @@ section.page-section {
 
 section#intro {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 50% 50%;
     align-items: center;
 }
 
@@ -213,6 +225,11 @@ section.intro-heading {
     font-size: 3rem;
 
     color: var(--accent);
+}
+
+section.intro-heading h1 {
+    width: fit-content;
+    font-size: 1em;
 }
 
 section.intro-heading #introTitle {
@@ -238,7 +255,7 @@ section.intro-heading #introSubtitleTwo {
 section#intro article {
     margin-top: 128px;
 
-    font-size: 24px;
+    font-size: 1.5em;
     color: var(--secondary);
 
     max-width: 700px;
@@ -248,25 +265,46 @@ section#intro article {
     height: 100%;
 }
 
-.rings.top-right {
+.rings {
     position: absolute;
     z-index: -1;
+    padding: 0px;
+}
 
+.rings.top-left {
     top: 0;
     left: 0;
 
-    padding: 0px;
-
-    /* transform: scale(0.5); */
     transform: translate(-50%, -50%);
+}
+
+.rings.bottom-right {
+    bottom: 0;
+    right: 0;
+
+    top: unset;
+    left: unset;
+
+    transform: translate(50%, 50%);
+}
+
+.rings.top-right {
+    top: 0;
+    right: 0;
+
+    left: unset;
+    transform: translate(50%, -50%);
 }
 
 
 
 .rings-abs-wrapper {
+    position: absolute;
     z-index: -1;
     width: 100vw;
     height: 100vh;
+    top: 0;
+    left: 0;
 }
 
 
@@ -316,14 +354,6 @@ section#intro article {
     }
 }
 
-
-section.how-it-works-description {
-    font-size: 2rem;
-}
-
-section.how-it-works-description #howItWorksTitle {
-    font-size: 2em;
-}
 
 .rings circle.s1 {
     stroke-width: 18px;
@@ -380,19 +410,41 @@ section.how-it-works-description #howItWorksTitle {
     stroke-dasharray: 10 8 40 8;
 }
 
+.rings circle.s9 {
+    opacity: 0.02;
+    animation-duration: 200s;
+    stroke-width: 5px;
+    stroke-dasharray: 2 5;
+}
+
+.rings circle.s10 {
+    animation-direction: reverse;
+    opacity: 0.03;
+    animation-duration: 100s;
+    stroke-width: 5px;
+    stroke-dasharray: 5 5 15 5;
+}
+
+.rings circle.s11 {
+    opacity: 0.04;
+    animation-duration: 75s;
+    stroke-width: 10px;
+    stroke-dasharray: 50 8;
+}
+
 
 
 section#badUses article {
     display: grid;
-    grid-template-columns: 2fr 3fr;
+    grid-template-columns: 33% 67%;
 
-    height: 100vh;
+    min-height: 100vh;
 
     padding: 128px;
 }
 
 section#badUses article:nth-child(even) {
-    grid-template-columns: 3fr 2fr;
+    grid-template-columns: 67% 33%;
 }
 
 section#badUses article:nth-child(even) section:last-child {
@@ -441,22 +493,14 @@ section#badUses article .content-wrapper {
 
 }
 
-section#badUses article p {
+.card {
     position: relative;
-    width: calc(100% - 64px);
     box-sizing: border-box;
-
     padding: 48px;
 
-    margin: 32px;
-
-    text-align: center;
-    color: var(--secondary);
-    font-size: 1.3em;
-    line-height: 1.5;
 }
 
-section#badUses article p::after {
+.card::after {
     content: "";
     display: block;
     position: absolute;
@@ -467,4 +511,515 @@ section#badUses article p::after {
     height: 100%;
     background-color: var(--secondary);
     opacity: 0.05;
+}
+
+section#badUses article p {
+    width: calc(100% - 64px);
+
+    margin: 32px;
+
+    text-align: center;
+    color: var(--secondary);
+    font-size: 1.3em;
+    line-height: 1.5;
+}
+
+section#badUses article:last-child {
+    display: block;
+    position: relative;
+
+    text-align: center;
+
+    height: auto;
+    min-height: auto;
+}
+
+section#badUses article:last-child section {
+    max-width: 800px;
+    margin: auto;
+}
+
+section#badUses article:last-child h1 {
+    width: 100%;
+    font-size: 5em;
+    text-align: center;
+}
+
+
+section.how-it-works-description {
+    padding: 108px;
+}
+
+section.how-it-works-description h1 {
+    font-size: 3rem;
+    width: fit-content;
+    color: var(--accent);
+}
+
+.how-it-works-description .how-it-works-content {
+    padding: inherit;
+}
+
+.how-it-works-description > div > section {
+
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 32px;
+
+    color: var(--secondary);
+    font-size: 1.5em;
+
+}
+
+.how-it-works-description > div > section code {
+    display: block;
+
+    width: fit-content;
+
+    margin: 12px 0px;
+}
+
+h3 {
+    margin-bottom: 40px;
+    font-size: 1.5em;
+    text-transform: uppercase;
+}
+
+.try-it > div {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    gap: 32px;
+}
+
+.try-it .output {
+    opacity: 1;
+
+    transition: opacity 0.2s;
+}
+
+.try-it .output:not(.filled) {
+    opacity: 0;
+}
+
+
+code {
+    position: relative;
+
+    padding: 8px 16px;
+    font-family: monospace;
+
+    overflow-wrap: anywhere;
+}
+
+code::after {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: -1;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: var(--secondary);
+    opacity: 0.1;
+    border-radius: 5px;
+}
+
+input, textarea, button {
+    background-color: var(--secondary-transparent);
+
+    box-sizing: border-box;
+    width: 100%;
+    padding: 16px;
+
+    margin: 8px 0px;
+
+    color: white;
+    font-family: inherit;
+    font-size: 18px;
+
+    border: 0px;
+    border-radius: 5px;
+    resize: none;
+
+    outline: solid 0px var(--secondary);
+
+    transition: outline-width 0.2s;
+}
+
+input:focus, textarea:focus, button:focus {
+    outline-width: 4px;
+}
+
+input::placeholder, textarea::placeholder {
+    color: #51516b;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+button.primary {
+    background-color: var(--accent-transparent);
+    outline-color: var(--accent);
+}
+
+.actionable {
+    color: var(--accent);
+    cursor: pointer;
+}
+
+.hidden-messaging-content {
+    padding: inherit;
+
+    font-size: 1.5em;
+    color: var(--secondary);
+}
+
+.hidden-messaging-content h1 {
+    width: fit-content;
+
+    color: var(--accent);
+    font-size: 2em;
+}
+
+.hidden-messaging-content .messages {
+    display: grid;
+    grid-template-columns: 42% 16% 42%;
+    gap: 32px;
+
+    align-items: center;
+}
+
+.hidden-messaging-content .messages .action p {
+    text-align: center;
+}
+
+.hidden-messaging-content code {
+    display: block;
+    margin: 32px 0px;
+    height: 93px;
+}
+
+.hidden-messaging-content .plaintext {
+    transition: opacity 0.2s;
+}
+
+.hidden-messaging-content .hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+
+section#solutions > article {
+    position: relative;
+    margin: 256px 128px;
+    margin-right: 25vw;
+}
+
+section#solutions > article:nth-child(odd) {
+    margin-right: 128px;
+    margin-left: 25vw;
+}
+
+section#solutions > article > h2 {
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+
+    margin: 0px;
+
+    font-family: MajorMono;
+    color: var(--accent);
+    opacity: 0.2;
+    font-size: 10em;
+
+    transform-origin: top left;
+    transform: translateY(100%) rotate(-90deg);
+}
+
+section#solutions > article:nth-child(odd) > h2 {
+    left: unset;
+    right: 0;
+    transform: translateY(100%) rotate(-90deg) translateY(135px);
+}
+
+section#solutions > article > p {
+    padding-left: 200px;
+}
+
+section#solutions > article:nth-child(odd) > p {
+    padding-right: 200px;
+    padding-left: 0px;
+
+}
+
+section#solutions > article p {
+    color: var(--secondary);
+    font-size: 2em;
+}
+
+section#solutions > article > .quote {
+    position: relative;
+
+    display: grid;
+    grid-template-columns: auto 350px;
+}
+
+section#solutions > article:nth-child(odd) > .quote {
+    grid-template-columns: 350px auto;
+}
+
+section#solutions > article > .quote .content-wrapper {
+
+    position: relative;
+
+    width: 100%;
+    box-sizing: border-box;
+    padding: 32px;
+    align-self: center;
+    font-size: 0.8em;
+
+}
+
+section#solutions > article > .quote p {
+    margin: 32px;
+}
+
+section#solutions > article > .quote p .author {
+    display: block;
+    color: var(--accent);
+    text-align: end;
+    margin-top: 16px;
+}
+
+section#solutions > article > .quote p .author::before {
+    content: "—";
+    margin-right: 8px;
+}
+
+section#solutions > article > .quote > figure {
+    margin: 0px;
+    margin-left: -15%;
+    width: 115%;
+    aspect-ratio: 1
+}
+
+section#solutions > article:nth-child(odd) > .quote > figure {
+    order: -1;
+}
+
+section#solutions > article > .quote > figure img {
+    width: 100%;
+}
+
+section#solutions > article > .quote > figure figcaption {
+    color: var(--secondary);
+    opacity: 0.5;
+    text-align: center;
+}
+
+img.flip {
+    transform: scaleX(-1);
+}
+
+section#solutions h1 {
+    width: fit-content;
+    margin: auto;
+    color: var(--accent);
+    font-size: 4em;
+    margin-top: 256px;
+}
+
+
+section#solutions article .rings-wrapper {
+    position: absolute;
+    width: calc(100% + 256px);
+    height: 1000px;
+    left: -128px;
+}
+
+section#conclusion {
+    position: relative;
+    text-align: center;
+    margin-bottom: 128px;
+}
+
+section#conclusion h1 {
+    color: var(--accent);
+    font-size: 4em;
+}
+
+section#conclusion .content-wrapper {
+    position: relative;
+
+    width: 1200px;
+    max-width: 90%;
+    margin: auto;
+
+    box-sizing: border-box;
+    padding: 32px;
+
+    color: var(--secondary);
+    font-size: 1.5em;
+}
+
+section#conclusion .content-wrapper p {
+    margin: 32px;
+}
+
+section#sources {
+    position: relative;
+    padding: 108px;
+    overflow: hidden;
+}
+
+section#sources > section {
+    padding: inherit;
+}
+
+section#sources > section h1 {
+    width: fit-content;
+    color: var(--accent);
+    font-size: 3.2em;
+}
+
+section#sources > section .columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+
+    color: var(--secondary);
+    font-size: 1.5em;
+}
+
+section#sources > section .columns ul {
+    list-style: none;
+}
+
+section#sources > section .columns li {
+    margin: 32px 0px;
+}
+
+section#sources > section .columns li:first-child {
+    color: var(--accent);
+    font-weight: bold;
+    font-size: 1.25em;
+}
+
+a:link, a:visited {
+    color: inherit;
+    transition: color 0.2s;
+}
+
+a:hover {
+    color: var(--accent);
+}
+
+@media screen and (max-width: 1550px) {
+    .how-it-works-description > div > section {
+        grid-template-columns: auto;
+        grid-template-rows: auto auto;
+    }
+
+    section#solutions > article {
+        margin-right: 128px;
+    }
+
+    section#solutions > article:nth-child(odd) {
+        margin-left: 128px;
+    }
+
+    .hidden-messaging-content .messages {
+        position: relative;
+        grid-template-columns: auto;
+        grid-template-rows: 20% 80%;
+        gap: 32px;
+    }
+
+
+    .hidden-messaging-content .messages .plaintext {
+        width: 100%;
+        position: absolute;
+        top: calc(20% + 46px);
+    }
+
+    .hidden-messaging-content .encypted {
+        transition: opacity 0.2s;
+    }
+
+    .hidden-messaging-content .shown .encypted {
+        opacity: 0;
+    }
+
+    .hidden-messaging-content .messages .action {
+        order: -1;
+    }
+
+    section.intro-heading {
+        font-size: 1.75em;
+    }
+
+    section#intro article {
+        font-size: 1em;
+    }
+
+    section#badUses article h1 {
+        font-size: 2.1em;
+    }
+
+    section#badUses article p {
+        font-size: 1.1em;
+    }
+
+    section#intro article {
+        margin-top: 64px;
+    }
+}
+
+.full-screen-msg#largerScreenWarning {
+    display: none;
+}
+
+.full-screen-msg#largerScreenWarning.hidden {
+    display: none;
+}
+
+@media screen and (max-width: 850px) {
+    .full-screen-msg#largerScreenWarning {
+        display: block;
+    }
+}
+
+.full-screen-msg {
+    position: fixed;
+    z-index: 1000;
+
+    width: 100vw;
+    box-sizing: border-box;
+
+    height: 100vh;
+    padding: 64px;
+
+    background-color: var(--background);
+}
+
+.full-screen-msg h1 {
+    color: var(--accent);
+    font-size: 4em;
+}
+
+.full-screen-msg p {
+    color: var(--secondary);
+}
+
+section#sources .rings-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 1000%;
 }

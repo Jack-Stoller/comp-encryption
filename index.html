@@ -7,10 +7,12 @@
         <title>My first three.js app</title>
 
         <script src="./js/objToHtml.js"></script>
-        <script src="./js/parallex.js"></script>
+        <!-- <script src="./js/parallex.js"></script> -->
         <script src="./js/obfuscate.js"></script>
-        <script src="./js/model.js" type="model"></script>
+        <script src="./js/model.js" type="module"></script>
         <script src="./js/slide.js"></script>
+        <script src="./js/scripts.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js" integrity="sha256-/H4YS+7aYb9kJ5OKhFYPUjSJdrtV6AeyJOtTkw6X72o=" crossorigin="anonymous"></script>
         <script>
 
             let intObserver = new IntersectionObserver((e) => {
@@ -51,9 +53,24 @@
     </head>
     <body>
 
+        <noscript>
+
+            <div id="javascriptWarning" class="full-screen-msg">
+                <h1>Enable Javascript</h1>
+                <p>This site relies heavily on the use of JavaScript to make an interactive experience. Please enable Javascript for the best experience.</p>
+            </div>
+
+        </noscript>
+
+        <div id="largerScreenWarning" class="full-screen-msg">
+            <h1>Use larger device</h1>
+            <p>This site has not been optimized for your device yet. Please use a large screen for the best experience.</p>
+            <button onclick="this.parentNode.classList.add('hidden')">Continue anways</button>
+        </div>
+
         <div class="background-grid"></div>
         <div class="background-noise"></div>
-        <!-- <div class="background-vignette"></div> -->
+        <div class="background-vignette"></div>
 
         <script src="./js/model.js" type="module"></script>
         <!-- <script src="./js/scriptsthree.js" type="module"></script> -->
@@ -63,8 +80,8 @@
 
         <section class="page-section" id="intro">
 
-            <div class="rings-abs-wrapper" data-parallex-speed="0.75">
-                <div class="rings top-right" >
+            <div class="rings-abs-wrapper">
+                <div class="rings top-left" >
                     <svg viewbox="0 0 100 100" height="100%" width="100%">
                         <circle class="s3" cx="50" cy="50" r="60" />
                         <circle class="s4" cx="50" cy="50" r="45" />
@@ -80,10 +97,12 @@
 
             <div>
                 <section class="intro-heading">
-                    <ani-obfuscator class="underline" id="introTitle" data-parallex-speed="0.95" data-parallex-space>Encryption</ani-obfuscator>
+                    <h1>
+                        <ani-obfuscator class="underline" id="introTitle">Encryption</ani-obfuscator>
+                    </h1>
                     <div class="subtitles">
-                        <ani-slide id="introSubtitleOne" data-parallex-speed="0.925" data-parallex-space>an interactive presentation</ani-slide>
-                        <ani-slide id="introSubtitleTwo" data-parallex-speed="0.9" data-parallex-space>jack stoller</ani-slide>
+                        <ani-slide id="introSubtitleOne">an interactive presentation</ani-slide>
+                        <ani-slide id="introSubtitleTwo">jack stoller</ani-slide>
                     </div>
                 </section>
 
@@ -99,9 +118,9 @@
                     </p>
 
                     <p>
-                        This is all powered by encryption, a revolutionary
-                        algorithm, first used thousands of years ago, but super
-                        powered by modern processors.
+                        This is achieved by encryption, a revolutionary type of
+                        algorithm, first used centeries of years ago, but super
+                        powered by modern processing power.
                     </p>
                 </article>
 
@@ -141,14 +160,14 @@
                         <ani-obfuscator class="underline">Locked iPhone</ani-obfuscator>
                     </h1>
                     <time datetime="2015-02">
-                        February 2015
+                        <ani-slide>February 2015</ani-slide>
                     </time>
                     <div class="content-wrapper">
                         <div class="gradient-borders">
                             <div></div>
                             <div></div>
                         </div>
-                        <p>
+                        <p class="card">
                             The FBI recovered an iPhone from a terrorist after an attack in San Bernardino, California. This phone could have contained contact information for the terrorist’s accomplices, plans for future attacks, and invaluable insight into how modern terrorists operate in the digital world. But it was encrypted, locked to everyone except those with the password. The FBI did not have the password. They needed to break the encryption. People have been breaking encryption since its creation of it with the Caesar Cipher. The only issue, it has gotten better. Much better. It could take a supercomputer hundreds of years to break the encryption on this phone. The cost of breaking the encryption would not be worth it. The FBI needed to bypass the encryption using a backdoor, so the FBI went to Apple. A backdoor is a way to get around the encryption. If encryption is a massive castle fortified from all sides, a back door is a hidden access through the sewers. Apple refused. Their backdoor was a closely guarded secret. Apple had to protect its reputation as an ultra-secure platform. Bypassing all their security, any time officials came knocking on their door wasn’t going to work. The FBI fought in court, citing the All Writs Act, but Apple rose the victor. The current regulation protected Apple. And the terrorist. The FBI had vital information at their figure tips, but the law held it back. A backdoor to bypass the encryption, required by regulation, could have made all the difference, but would have that been for the better?
                         </p>
                     </div>
@@ -176,14 +195,14 @@
                         <ani-obfuscator class="underline">Instant Criminal Messaging</ani-obfuscator>
                     </h1>
                     <time datetime="2018">
-                        2018
+                        <ani-slide>2018</ani-slide>
                     </time>
                     <div class="content-wrapper">
                         <div class="gradient-borders">
                             <div></div>
                             <div></div>
                         </div>
-                        <p>
+                        <p class="card">
                             Criminals using encryption to protect themselves from authorities is not anything new. In 2018, the FBI dismantled a Canadian-based messaging service (Phillips 2021). This secure, encrypted, messaging service aided criminals in their activities. It let them walk right beside the FBI in the digital world, without the FBI having any chance of figuring out what they were up to. This instant remote communication from anywhere in the world gave criminals superpowers. Criminals can use the infrastructure that the world has set up to wreak havoc on it. The potential anonymity given by encryption is unparalleled to any time in history.
                         </p>
                     </div>
@@ -212,14 +231,14 @@
                         <ani-obfuscator class="underline">Bank Robbery, Digitally</ani-obfuscator>
                     </h1>
                     <time datetime="2020">
-                        2020
+                        <ani-slide>2020</ani-slide>
                     </time>
                     <div class="content-wrapper">
                         <div class="gradient-borders">
                             <div></div>
                             <div></div>
                         </div>
-                        <p>
+                        <p class="card">
                             Ransomware is more common than ever now. In 2020, the Finastra Group Holdings became a victim of a ransomware attack. 90 of 100 of the world’s largest banks were affected (Hastett, 2021, pg. 1). Finastra had to go dark. They were able to recover, but potential damage was clear. Attempted cyber-attacks against banks have increased from under 5,000 a week in February 2020 to more than 200,000 a week in April 2021 (Hastett, 2021, pg. 1). It was found that in a 2021 report, in the past 12 months, 44% of financial institutions paid the ransom to get their data back. Even with backups, only 47% were able to recover, despite 67% saying they could (Hastett, 2021, pg. 2).
                         </p>
                     </div>
@@ -248,14 +267,14 @@
                         <ani-obfuscator class="underline">Healthcare Attacks</ani-obfuscator>
                     </h1>
                     <time datetime="2016">
-                        2016
+                        <ani-slide>2016</ani-slide>
                     </time>
                     <div class="content-wrapper">
                         <div class="gradient-borders">
                             <div></div>
                             <div></div>
                         </div>
-                        <p>
+                        <p class="card">
                             The finical industry isn’t the only industry under intense pressure from ransomware attacks. The healthcare industry has seen similar trends. In a report published by the Department of Health and Human Services in 2021, it was found that in the first 5 months, 82 different ransomware attacks occurred, 72% of which exposed patient data (Kiser 2021, pg. 65). In 2016 the Hollywood Presbyterian Medical Center was attacked. Ambulances had to be diverted to other hospitals, records couldn’t be accessed, and certain computerized scans could not be completed (Kiser 2021, pg. 71). They were left with the decision of paying the ransom or losing access to all their patient data.
                         </p>
                     </div>
@@ -264,11 +283,27 @@
 
 
             <article>
+                <div class="rings-abs-wrapper">
+                    <div class="rings top-left" >
+                        <svg viewbox="0 0 100 100" height="100%" width="100%">
+                            <circle class="s3" cx="50" cy="50" r="60" />
+                            <circle class="s4" cx="50" cy="50" r="45" />
+                            <circle class="s5" cx="50" cy="50" r="25" />
+                        </svg>
+                    </div>
+                </div>
+
                 <section>
-                    <h1>How?</h1>
-                    <p>
-                        Encryption. Simply put, encryption let’s hackers attack a system and encrypt everything. If organtiztion wants the data back, they have to buy or or find the hacker’s mistake. It's like locking an entire office building and then selling the keys to the front door for millions.
-                    </p>
+                    <h1><ani-slide>How?</ani-slide></h1>
+                    <div class="content-wrapper">
+                        <div class="gradient-borders">
+                            <div></div>
+                            <div></div>
+                        </div>
+                        <p class="card">
+                            Encryption. Simply put, encryption let’s hackers attack a system and encrypt everything. If organtiztion wants the data back, they have to buy or or find the hacker’s mistake. It’s like locking an entire office building and then selling the keys to the front door for millions.
+                        </p>
+                    </div>
                 </section>
             </article>
         </section>
@@ -278,74 +313,334 @@
 
         <section id="howItWorks">
 
-            <section class="how-it-works-description">
-                <ani-obfuscator id="howItWorksTitle">How It Works</ani-obfuscator>
+            <section class="page-section fit how-it-works-description">
 
-                <div>Encryption turns</div>
-                <code>Hello World</code>
-                <div>into</div>
-                <code>JGF*&GWHJGW^GSD</code>
-                <div>The only way to get it back is with the key</div>
-                <code>Key</code>
-            </section>
-
-            <section class="try-it">
-                <ani-obfuscator>Try it out</ani-obfuscator>
-
-                <form action="#" onsubmit="event.preventDefault();">
-
-                    <div>Put something in here</div>
-                    <textarea></textarea>
-
-                    <div>Then give it a key. Remeber</div>
-
-                    <input type="text">
-
-                    <button>Encrypt</button>
-
-                </form>
-
-                <div>
-                    A now it's
+                <div class="rings-abs-wrapper">
+                    <div class="rings" >
+                        <svg viewbox="0 0 100 100" height="100%" width="100%">
+                            <circle class="s9" cx="50" cy="50" r="60" />
+                            <circle class="s10" cx="50" cy="50" r="50" />
+                            <circle class="s11" cx="50" cy="50" r="38" />
+                        </svg>
+                    </div>
                 </div>
 
-                <code>
-                    %^&Y*HUSDFYT%^*W#BHJGYT^&*(UIGY%^)TYHJGVT^&*U%^&
-                </code>
-
-
-
-                <div>Now let's get it back</div>
-
-                <form action="#" onsubmit="event.preventDefault();">
-
-                    <div>Put the encrypted text here, or just click here</div>
-                    <textarea></textarea>
-
-                    <div>Now enter the key exactly as before</div>
-
-                    <input type="text">
-
-                    <button>Decrypt</button>
-
-                </form>
-
-                <div>
-                    And now it's back.
+                <div class="gradient-borders">
+                    <div></div>
+                    <div></div>
                 </div>
 
-                <code>
-                    Orignal text here
-                </code>
+                <div class="how-it-works-content">
 
+                    <h1>
+                        <ani-obfuscator class="underline" id="howItWorksTitle">How It Works</ani-obfuscator>
+                    </h1>
 
+                    <section>
+
+                        <section>
+
+                            <h3 class="underline"><ani-slide>In Short</ani-slide></h3>
+
+                            <div>Encryption turns</div>
+                            <code>Hello World</code>
+                            <div>into</div>
+                            <code>U2FsdGVkX19enMgeccnKPscQewHkcDHA7bJSmC0wvg8=</code>
+                            <div>The only way to get it back is with the key</div>
+                            <code>Key</code>
+
+                        </section>
+
+                        <section class="try-it">
+                            <h3 class="underline"><ani-slide>Try it out yourself</ani-slide></h3>
+
+                            <div>
+                                <section>
+
+                                    <form action="#" onsubmit="event.preventDefault(); submitEncrypt(event);">
+
+                                        <div>Put something to encrypt in here. It can be just about anything, numbers or letters.</div>
+                                        <textarea name="decryptedInput" placeholder="This is the text to hide" required></textarea>
+
+                                        <div>Then give it a key, something you can remeber</div>
+
+                                        <input name="decryptKey" type="password" placeholder="Like a password, the stronger the better" required>
+
+                                        <div>Now encrypt it</div>
+
+                                        <button class="primary">Encrypt</button>
+                                    </form>
+
+                                    <div class="output">
+                                        <div>And now it is</div>
+                                        <code></code>
+                                    </div>
+
+                                </section>
+
+                                <section>
+
+                                    <form action="#" onsubmit="event.preventDefault(); submitDecrypt(event);">
+
+                                        <div>Now let's get it back. Put the encrypted text here, or just click <span class="actionable" onclick="fillEncrptedInput()">here</span> to do it automatically.</div>
+                                        <textarea name="encryptedInput" placeholder="This is the jumble of text that was just made" required></textarea>
+
+                                        <div>Now enter the key exactly as before</div>
+
+                                        <input name="encryptKey" type="password" placeholder="The same key as before" required>
+
+                                        <div>Now decrypt it.</div>
+
+                                        <button class="primary">Decrypt</button>
+
+                                    </form>
+
+                                    <div class="output">
+                                        <div>And now it is back.</div>
+                                        <code></code>
+                                    </div>
+
+                                </section>
+                            </div>
+                        </section>
+
+                    </section>
+
+                </div>
             </section>
-
         </section>
 
-        <section id="backdoors">
+        <section class="page-section fit" id="hiddenMessaging">
 
+            <div class="gradient-borders">
+                <div></div>
+                <div></div>
+            </div>
+
+            <div class="hidden-messaging-content">
+
+                <h1>
+                    <ani-obfuscator class="underline">Hiding in plain sight</ani-obfuscator>
+                </h1>
+
+                <div>
+                    <p>
+                        Messaging services like iMessage and Signal use end-to-end encryption. This means no one can intercept the messages and decipher their meaning. This also means criminals can use these same communication channels and remain entirely anonymous.
+                    </p>
+
+                    <h3 class="underline"><ani-slide>Find the suspicious text message</ani-slide></h3>
+
+                    <div class="messages">
+                        <div class="encypted">
+                            <code>U2FsdGVkX18lm2vOUtsYy+qD84RKYfcHYbx/Kmogh3jiuotJ4VkiN2ZQrF0tJkbC</code>
+                            <code>U2FsdGVkX18egyRMXTMZ5Fr/19QfdwTA/bSpcHZs9WiW58uHfgfj8xXaNcpjsFmPEjWwwTbUSl18JuhyXKMD2zGUYEYI1unT9z4cT5lO1wQ=</code>
+                            <code>U2FsdGVkX1/vHsldnh4G2vxEDndGDevfiFqBE81b7FTTbm78LBPFVlGwM+W8Yw4+pKkf94NH6FB6luIVyxbHyKffWq+hfuhgd7IZwZ5cOnk=</code>
+                            <code>U2FsdGVkX1/hZnXttozNN3Jgr/PPhLJ63s0yT+6Ebxfmb9xfbqIRvhzKXrHBJmcpsXhy4fKGL9PK8dr8WXibd7gigUlwBoXMPKLHCH10Ble3MSRGFot7t7ywWeuJMU+hZcLZ8RoVIXbivbGzM+GL5g==</code>
+                        </div>
+                        <div class="action">
+                            <p>Confused? Click "Decrypt"</p>
+                            <button id="plaintextToggle" onclick="togglePlaintext()">Decrypt</button>
+                        </div>
+                        <div class="plaintext hidden">
+                            <code>Supper is at 5:45</code>
+                            <code>I left my coat at the store, can you grab it for me? Thx!</code>
+                            <code>Next heist, 123 Bank at 540 Main Street City on 3/4 at 15:15</code>
+                            <code>Thanks for your support in the meeting this morning! We are moving into phase 2 now.</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
+        <section id="solutions">
+            <h1>
+                <ani-obfuscator class="underline">Solutions</ani-obfuscator>
+            </h1>
+
+            <article>
+                <div class="rings-wrapper">
+                    <div class="rings top-left" >
+                        <svg viewbox="0 0 100 100" height="100%" width="100%">
+                            <circle class="s3" cx="50" cy="50" r="60" />
+                            <circle class="s4" cx="50" cy="50" r="45" />
+                            <circle class="s5" cx="50" cy="50" r="25" />
+                        </svg>
+                    </div>
+                </div>
+
+                <h2><ani-slide>01</ani-slide></h2>
+                <p>
+                    Prephase the simpliest solution would be not allow encryption. It would be trival to then detect an encrypted message and flag it as suspicious. However, this would come at extreme costs. Bank accounts, personal infomation, emails and more would be acciesble to anyone that wannted them. Trust would collpase.
+                </p>
+
+                <section class="quote">
+                    <div class="content-wrapper">
+                        <div class="gradient-borders">
+                            <div></div>
+                            <div></div>
+                        </div>
+                        <p class="card">
+                            From identity theft, to the compromising of our infrastructure, to our economic and military security, encryption must play an ever-increasing role, and the companies that develop it must be encouraged to increase its effectiveness.
+                            <span class="author">Representative Bob Goodlatte</span>
+                        </p>
+                    </div>
+                    <figure>
+                        <img src="./assets/images/goodlatte.png" />
+                        <figcaption>
+                            Adapted from
+                            <cite>Tom Williams/CQ Roll Call file photo</cite>
+                        </figcaption>
+                    </figure>
+                </section>
+            </article>
+
+            <article>
+                <div class="rings-wrapper">
+                    <div class="rings top-right" >
+                        <svg viewbox="0 0 100 100" height="100%" width="100%">
+                            <circle class="s3" cx="50" cy="50" r="60" />
+                            <circle class="s4" cx="50" cy="50" r="45" />
+                            <circle class="s5" cx="50" cy="50" r="25" />
+                        </svg>
+                    </div>
+                </div>
+
+
+                <h2><ani-slide>02</ani-slide></h2>
+                <p>
+                    Another idea rising in popularity is a backdoor for the governement. This would allow them to bypass the encryption on devices to gain access to data while still allowing for strong encryption. In theory, this solution gives the best of both worlds. Consumers still get protection against digital criminals and the government could still get the data they need. However, it’s pratically impossible to allow just the governement to access it.
+                </p>
+
+                <section class="quote">
+                    <div class="content-wrapper">
+                        <div class="gradient-borders">
+                            <div></div>
+                            <div></div>
+                        </div>
+                        <p class="card">
+                            The technical experts have warned us that it is impossible to intentionally introduce flaws into secure products, often called backdoors, that only law enforcement can exploit to the exclusion of terrorists and cyber criminals. The tech companies have warned us that it would cost millions of dollars to implement and replace them at a competitive disadvantage around the world. The national security experts have warned us that terrorists and other criminals will simply resort to other tools entirely outside the reach of our law enforcement and intelligence agencies.
+                            <span class="author">Representative John Conyers Jr.</span>
+                        </p>
+                    </div>
+                    <figure>
+                        <img src="./assets/images/conyers.png" />
+                        <figcaption>
+                            Adapted from
+                            <cite>United States Congress, Public domain, via Wikimedia Commons</cite>
+                        </figcaption>
+                    </figure>
+                </section>
+            </article>
+
+            <article>
+                <div class="rings-wrapper">
+                    <div class="rings top-left" >
+                        <svg viewbox="0 0 100 100" height="100%" width="100%">
+                            <circle class="s3" cx="50" cy="50" r="60" />
+                            <circle class="s4" cx="50" cy="50" r="45" />
+                            <circle class="s5" cx="50" cy="50" r="25" />
+                        </svg>
+                    </div>
+                </div>
+
+                <h2><ani-slide>03</ani-slide></h2>
+                <p>
+                    Fight fire with fire. Instead of weaking encryption, it could be used as it’s fullest potential against itself. Sure, criminals could still message eachother, but robbing a bank that ultizes encryption and other digital secrity methods to their fullest potential isn’t going to be easy. Encryption might be a criminal’s best weapon, but it’s everyone else’s best defense.
+                </p>
+
+                <section class="quote">
+                    <div class="content-wrapper">
+                        <div class="gradient-borders">
+                            <div></div>
+                            <div></div>
+                        </div>
+                        <p class="card">
+                            I think that I have faith in your [FBI Representative] ability, in the FBI’s ability ultimately to outsmart the criminals and the bad actors without jeopardizing the privacy and the security of the American people.
+                            <span class="author">Representative Hakeem Jeffries</span>
+                        </p>
+                    </div>
+                    <figure>
+                        <img src="./assets/images/jeffries.png" />
+                        <figcaption>
+                            Adapted from
+                            <cite>Office of Representative Hakeem Jeffries, Public Domain, via Wikimedia Commons</cite>
+                        </figcaption>
+                    </figure>
+                </section>
+            </article>
+        </section>
+
+        <section id="conclusion">
+            <div class="rings-abs-wrapper">
+                <div class="rings" >
+                    <svg viewbox="0 0 100 100" height="100%" width="100%">
+                        <circle class="s9" cx="50" cy="50" r="60" />
+                        <circle class="s10" cx="50" cy="50" r="50" />
+                        <circle class="s11" cx="50" cy="50" r="38" />
+                    </svg>
+                </div>
+            </div>
+            <h1><ani-slide>Conclusion</ani-slide></h1>
+            <div class="content-wrapper">
+
+                <div class="gradient-borders">
+                    <div></div>
+                    <div></div>
+                </div>
+                <p class="card">
+                    Encryption is what keeps bank accounts secure. It’s what keeps electric grids online and planes from crashing in the sky. It lets a dad send money back to his family without worry that it will get stolen and it’s what keeps anyone from talking through baby monitors to young kids. For as much as it benefits criminals, it benefits the consumer more. Those are benefits that the consumer loses when encryption is weakened or backdoors are added, not the criminal. For every single terrorist iPhone, thousands or millions of consumer iPhones are protected by those same standards. When faced with an isolated situation, it’s intuitive to choose the best option at the present. It’s the opposite that what gives encryption its strength. Weakening a link in a chain weakens the entire chain. The same is true with encryption.
+                </p>
+            </div>
+        </section>
+
+        <section id="sources">
+            <div class="gradient-borders">
+                <div></div>
+                <div></div>
+            </div>
+
+            <div class="rings-abs-wrapper">
+                <div class="rings bottom-right" >
+                    <svg viewbox="0 0 100 100" height="100%" width="100%">
+                        <circle class="s3" cx="50" cy="50" r="60" />
+                        <circle class="s4" cx="50" cy="50" r="45" />
+                        <circle class="s5" cx="50" cy="50" r="25" />
+                    </svg>
+                </div>
+            </div>
+
+            <section>
+                <h1>
+                    <ani-obfuscator class="underline">Sources</ani-obfuscator>
+                </h1>
+                <div class="columns">
+                    <ul class="column">
+                        <li class="underline"><ani-slide>Academic</ani-slide></li>
+                        <li>Andola, N., Ivan, S., & Sengupta, R. (2022). A secure searchable encryption scheme for cloud using hash-based indexing. Journal of Computer and System Sciences, 126, 119-137.</li>
+                        <li>Individual Right to Privacy vs. National Security: Hearing before the Subcommittee on International Economic Policy and Trade of the Committee on International Relations (1997, May 8) House of Representatives, One Hundred Fifth Congress, First Session</li>
+                        <li>Hastett, K. L. (2021). Ransomware Attacks Heat up. Bank Director, 31(4), 12-18.</li>
+                        <li>Kiser, S., & Maniam, B. (2021). Ransomware: Healthcare Industry at Risk. Journal of Business & Accounting, 14(1), 64-81.</li>
+                        <li>Phillips, K. (2021, June 9). FBI Secretly Ran Phone Encryption Program Used by Organized Crime. USA Today, 06A</li>
+                        <li>Reed Albergotti. (2021, April 9). Apple Stalls Its Plans to Scan for Child Porn. The Washington Post.</li>
+                        <li>The Encryption Tightrope: Balancing Americans’ Security and Privacy: Hearing before the Committee on the Judiciary, House of Representatives, One Hundred Fourteenth Congress, Second Session, (2016, March 1).</li>
+                        <li>Xu, J., & Zhou, J. (2021). Strong Leakage-Resilient Encryption: Enhancing Data Confidentiality by Hiding Partial Ciphertext. International Journal of Information Security, 20(2)</li>
+                    </ul>
+                    <ul>
+                        <li class="underline"><ani-slide>Resource</ani-slide></li>
+                        <li><a href="https://threejs.org/">three.js</a> - For the 3D illustrations</li>
+                        <li><a href="https://github.com/brix/crypto-js">crypto-js</a> - For the encryption and decryption example</li>
+                        <li><a href="https://github.com/gkjohnson/threejs-sandbox/tree/master/conditional-lines">Conditional Lines</a> by gkjohnson - The rendering technique used</li>
+                        <li><a href="https://fonts.google.com/specimen/Major+Mono+Display">Google Fonts Major Mono Display</a> - The accenting typeface used for headings</li>
+                        <li>Wikimedia Commons - Photos of Representative John Conyers Jr. and Representative Hakeem Jeffries</li>
+                        <li>Tom Williams/CQ Roll Call file photo - Photo of Representative Bob Goodlatte</li>
+                    </ul>
+                    <ul>
+                        <li class="underline"><ani-slide>Artistic Inspiration</ani-slide></li>
+                        <li><a href="https://www.socialbakers.com/social-wars/">Social Wars</a></li>
+                        <li><a href="https://gkjohnson.github.io/threejs-sandbox/conditional-lines/">Conditional Lines</a></li>
+                    </ul>
+                </div>
+            </section>
+        </section>
     </body>
 </html>
