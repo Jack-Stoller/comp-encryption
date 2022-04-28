@@ -52,3 +52,8 @@ function togglePlaintext() {
 
     btn.textContent = plaintext.classList.contains('hidden') ? 'Decrypt' : 'Hide';
 }
+
+window.addEventListener('load', () => {
+    document.getElementById('loadingMsg').classList.add('hidden');
+    console.log('Window loaded')
+})

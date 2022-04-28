@@ -1,3 +1,108 @@
+<style>
+
+    .loading {
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        z-index: 10000;
+        display: grid;
+
+        align-items: center;
+
+        box-sizing: border-box;
+
+        top: 0;
+        left: 0;
+
+        padding: 128px;
+
+        text-align: center;
+
+        background-color: #101017;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Ubuntu", "Roboto", "Noto Sans", "Droid Sans", sans-serif;
+        color: #F5335E;
+        font-weight: bold;
+        font-size: 4em;
+
+        transition: opacity 0.75s;
+    }
+
+    .loading.hidden {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .loading .rings {
+        position: absolute;
+        z-index: -1;
+        padding: 0px;
+        display: grid;
+        height: 100%;
+        width: 100%;
+        align-items: center;
+        justify-items: center;
+    }
+
+    .loading .rings svg circle {
+        stroke: #F5335E;
+        stroke-width: 1px;
+        fill: none;
+
+        opacity: 0.05;
+
+        transform-origin: center center;
+        animation: rotate 200s infinite linear;
+    }
+
+    .loading .rings circle.s3 {
+        opacity: 0.02;
+        animation-duration: 300s;
+        stroke-width: 15px;
+        stroke-dasharray: 32 16 16 16;
+    }
+
+    .loading .rings circle.s4 {
+        animation-direction: reverse;
+        opacity: 0.03;
+        animation-duration: 100s;
+        stroke-width: 4px;
+        stroke-dasharray: 5 5;
+    }
+
+    .loading .rings circle.s5 {
+        opacity: 0.04;
+        animation-duration: 20s;
+        stroke-width: 20px;
+        stroke-dasharray: 23 8;
+    }
+
+    @keyframes rotate {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+
+
+
+</style>
+
+<div id="loadingMsg" class="loading">
+    Loading - Hold on
+    <div class="rings">
+        <svg viewbox="0 0 100 100" height="100%" width="100%">
+            <circle class="s3" cx="50" cy="50" r="60" />
+            <circle class="s4" cx="50" cy="50" r="45" />
+            <circle class="s5" cx="50" cy="50" r="25" />
+        </svg>
+    </div>
+</div>
+
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -52,7 +157,6 @@
         </script>
     </head>
     <body>
-
         <noscript>
 
             <div id="javascriptWarning" class="full-screen-msg">

@@ -438,7 +438,7 @@ section#badUses article {
     display: grid;
     grid-template-columns: 33% 67%;
 
-    min-height: 100vh;
+    min-height: 80vh;
 
     padding: 128px;
 }
@@ -982,12 +982,14 @@ a:hover {
     }
 }
 
-.full-screen-msg#largerScreenWarning {
+.full-screen-msg {
     display: none;
+    transition: opacity 0.5s;
 }
 
-.full-screen-msg#largerScreenWarning.hidden {
-    display: none;
+.full-screen-msg.hidden {
+    opacity: 0;
+    pointer-events: none;
 }
 
 @media screen and (max-width: 850px) {
